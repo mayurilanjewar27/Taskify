@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login - Taskify</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Login to Your Account</h2>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const user = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      };
+
+      const res = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(user)
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("userId", data.userId);
+        alert("Login successful!");
+        window.location.href = "dashboard.html";
+      } else {
+        alert(data.message);
+      }
+    });
+  </script>
+</body>
+</html>

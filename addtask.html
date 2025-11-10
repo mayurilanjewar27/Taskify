@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Task - Taskify</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Add New Task</h2>
+  <form id="taskForm">
+    <input type="text" id="title" placeholder="Task Title" required><br>
+    <textarea id="description" placeholder="Description" required></textarea><br>
+    <input type="date" id="deadline" required><br>
+    <button type="submit">Add Task</button>
+  </form>
+
+  <script>
+    const userId = localStorage.getItem("userId");
+
+    document.getElementById("taskForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const task = {
+        title: document.getElementById("title").value,
+        description: document.getElementById("description").value,
+        deadline: document.getElementById("deadline").value,
+        userId
+      };
+
+      await fetch("http://localhost:5000/api/tasks", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(task)
+      });
+
+      alert("Task Added!");
+      window.location.href = "dashboard.html";
+    });
+  </script>
+</body>
+</html>
